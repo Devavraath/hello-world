@@ -19,7 +19,7 @@
                 var successMessage = $("#successMessage");
 
                 $.ajax({
-                    url: "/update", // Update this URL with your server endpoint
+                    url: "postgres://gqvavmcsseyfde:04d48bc94ff894c12df9862618459c62c50c8ab81aaabd56569f7bbbac1ccac2@ec2-3-217-146-37.compute-1.amazonaws.com:5432/dba9nkg793ccsq", // Update this URL with your server endpoint
                     method: "POST",
                     data: JSON.stringify({
                         updateValue: true // The value to update to in Salesforce
