@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Field Updater</title>
+    <title>Heroku Tester</title>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <style>
@@ -14,57 +14,66 @@
     </style>
     <script>
         $(function() {
-            $("#updateFieldForm").submit(function(event) {
+            $("#herokutester").submit(function(event) {
                 event.preventDefault();
 
-                var successMessage = $("#successMessage");
+                var errorMessage = $("#errorMessage");
+                var error = $("#error");
+                error.hide();
+
+                $("#message").hide();
+
+                var active = $("#active__c").val()
 
                 $.ajax({
                     url: event.target.action,
                     method: event.target.method,
                     data: JSON.stringify({
-                        Active__c: true
+                        active: true
                     }),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function(data) {
-                        successMessage.text("Field updated for all contacts!");
-                        successMessage.show();
+                        $("#active__c").val("");
+                        $("#messageMessage").text("Records updated!");
+                        $("#message").show();
                     },
                     error: function(err) {
-                        console.error(err);
-                        successMessage.text("Error updating field. Please try again.");
-                        successMessage.show();
+                        errorMessage.text(err.responseJSON.error);
+                        error.show();
                     }
-                });
+                })
             });
         });
+
     </script>
 </head>
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="/">Field Updater</a>
+                <a class="navbar-brand" href="/">Update Records</a>
             </div>
         </div>
     </nav>
 
     <div class="container">
-        <form id="updateFieldForm" action="/update" method="post" style="width: 400px">
+        <form id="phoneChangerForm" action="/update" method="post" style="width: 400px">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Update Field for All Contacts</h3>
-                </div>
-                <div class="panel-body">
-                    <!-- No input fields needed -->
+                    <h3 class="panel-title">Update all records</h3>
                 </div>
                 <div class="panel-footer">
-                    <div id="successMessage" class="alert alert-success" role="alert" style="display: none;">
+                    <div id="message" class="alert alert-info" role="alert" style="display: none;">
                         <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                         <span id="messageMessage"></span>
                     </div>
-                    <button type="submit" class="btn btn-primary">Update Field for All Contacts</button>
+                    <div id="error" class="alert alert-danger" role="alert" style="display: none;">
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                        <span class="sr-only">Error:</span>
+                        <span id="errorMessage"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Contact Records</button>
                 </div>
             </div>
         </form>
