@@ -1,34 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- ... (head content remains the same) -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Salesforce Field Update</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <style>
+        body {
+            padding-top: 60px;
+        }
+    </style>
     <script>
         $(function() {
-            $("#updateAllButton").click(function(event) {
+            $("#updateButton").click(function(event) {
                 event.preventDefault();
 
-                var errorMessage = $("#errorMessage");
-                var error = $("#error");
-                error.hide();
-
-                $("#message").hide();
+                var successMessage = $("#successMessage");
 
                 $.ajax({
-                    url: "/update",
+                    url: "/update", // Update this URL with your server endpoint
                     method: "POST",
                     data: JSON.stringify({
-                        newValue: $("#newValue").val()
+                        updateValue: true // The value to update to in Salesforce
                     }),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function(data) {
-                        $("#newValue").val("");
-                        $("#messageMessage").text("Field updated for all contacts!");
-                        $("#message").show();
+                        successMessage.text("Field updated successfully!");
+                        successMessage.show();
                     },
                     error: function(err) {
-                        errorMessage.text(err.responseJSON.error);
-                        error.show();
+                        console.error(err);
+                        successMessage.text("Error updating field. Please try again.");
+                        successMessage.show();
                     }
                 });
             });
@@ -36,19 +41,12 @@
     </script>
 </head>
 <body>
-    <!-- ... (navbar and container remain the same) -->
-    <div class="panel-footer">
-        <div id="message" class="alert alert-info" role="alert" style="display: none;">
-            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-            <span id="messageMessage"></span>
+    <div class="container">
+        <h2>Salesforce Field Update</h2>
+        <button id="updateButton" class="btn btn-primary">Update Field</button>
+        <div id="successMessage" class="alert alert-success" role="alert" style="display: none;">
+            <strong>Success!</strong> <span id="messageMessage"></span>
         </div>
-        <div id="error" class="alert alert-danger" role="alert" style="display: none;">
-            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-            <span class="sr-only">Error:</span>
-            <span id="errorMessage"></span>
-        </div>
-        <button id="updateAllButton" class="btn btn-primary">Update Field for All Contacts</button>
     </div>
-    <!-- ... (closing body and html tags) -->
 </body>
 </html>
