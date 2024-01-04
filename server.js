@@ -4,7 +4,7 @@ var { Client } = require('pg');
 
 var app = express();
 
-app.set('port', process.env.PORT || 5000);
+app.set('port', process.env.PORT || 5432);
 
 app.use(express.static('public'));
 app.use(bodyParser.json());

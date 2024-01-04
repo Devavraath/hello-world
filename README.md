@@ -4,4 +4,4 @@
 
 # Local Dev
 
-    PGSSLMODE=require DATABASE_URL=postgres://foo:bar@asdf.com:5432/1234 npm start
+    PGSSLMODE=require DATABASE_URL=postgres://gqvavmcsseyfde:04d48bc94ff894c12df9862618459c62c50c8ab81aaabd56569f7bbbac1ccac2@ec2-3-217-146-37.compute-1.amazonaws.com:5432/dba9nkg793ccsq npm start
