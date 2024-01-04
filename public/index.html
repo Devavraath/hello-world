@@ -1,26 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ... (head content remains the same) -->
+    <script>
+        $(function() {
+            $("#updateAllButton").click(function(event) {
+                event.preventDefault();
 
-<script>
-    $(function() {
-        $("#updateAllButton").click(function(event) {
-            event.preventDefault();
+                var errorMessage = $("#errorMessage");
+                var error = $("#error");
+                error.hide();
 
-            var errorMessage = $("#errorMessage");
-            var error = $("#error");
-            error.hide();
+                $("#message").hide();
 
-            $("#message").hide();
-
-            var newValue = $("#newValue").val();
-
-            if (newValue.length == 0) {
-                errorMessage.text("Please provide a new value.");
-                error.show();
-            } else {
                 $.ajax({
                     url: "/update",
                     method: "POST",
                     data: JSON.stringify({
-                        newValue: newValue
+                        newValue: $("#newValue").val()
                     }),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
@@ -33,22 +30,25 @@
                         errorMessage.text(err.responseJSON.error);
                         error.show();
                     }
-                })
-            }
+                });
+            });
         });
-    });
-
-</script>
-
-<div class="panel-footer">
-    <div id="message" class="alert alert-info" role="alert" style="display: none;">
-        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-        <span id="messageMessage"></span>
+    </script>
+</head>
+<body>
+    <!-- ... (navbar and container remain the same) -->
+    <div class="panel-footer">
+        <div id="message" class="alert alert-info" role="alert" style="display: none;">
+            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+            <span id="messageMessage"></span>
+        </div>
+        <div id="error" class="alert alert-danger" role="alert" style="display: none;">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+            <span id="errorMessage"></span>
+        </div>
+        <button id="updateAllButton" class="btn btn-primary">Update Field for All Contacts</button>
     </div>
-    <div id="error" class="alert alert-danger" role="alert" style="display: none;">
-        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-        <span class="sr-only">Error:</span>
-        <span id="errorMessage"></span>
-    </div>
-    <button id="updateAllButton" class="btn btn-primary">Update Field for All Contacts</button>
-</div>
+    <!-- ... (closing body and html tags) -->
+</body>
+</html>
