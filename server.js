@@ -4,13 +4,13 @@ var { Client } = require('pg');
 
 var app = express();
 
-app.set('port', process.env.PORT || 5432);
+app.set('port', process.env.PORT || 5000);
 
 app.use(express.static('public'));
 app.use(bodyParser.json());
 
 app.post('/update', function(req, res) {
-    var connectionString = 'postgres://gqvavmcsseyfde:04d48bc94ff894c12df9862618459c62c50c8ab81aaabd56569f7bbbac1ccac2@ec2-3-217-146-37.compute-1.amazonaws.com:5432/dba9nkg793ccsq';
+    var connectionString = process.env.DATABASE_URL;
 
     var client = new Client({
         connectionString: connectionString
