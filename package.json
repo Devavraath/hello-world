@@ -1,5 +1,5 @@
 {
-  "name": "Heroku Testing",
+  "name": "heroku-testing",
   "version": "0.0.0",
   "description": "Heroku Connect Sample Contact Data Update",
   "main": "server.js",
