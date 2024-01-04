@@ -4,14 +4,13 @@ var pg = require('pg');
 
 var app = express();
 
-app.set('port', process.env.PORT || 5000);
+app.set('port', process.env.PORT || 5432);
 
 app.use(express.static('public'));
 app.use(bodyParser.json());
 
 app.post('/update', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function (err, conn, done) {
-        // watch for any connect issues
         if (err) console.log(err);
         conn.query(
             'UPDATE salesforce.Contact SET Active__c = True', // Replace YourFieldName with the actual field name you want to update

@@ -1,5 +1,5 @@
 {
-  "name": "Heroku Testing",
+  "name": "heroku-testing",
   "description": "Heroku Testing",
   "repository": "https://github.com/Devavraath/hello-world",
   "success_url": "/setup.html",
