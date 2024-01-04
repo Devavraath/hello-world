@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Salesforce Field Update</title>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <title>Field Updater</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <style>
         body {
             padding-top: 60px;
@@ -13,21 +14,21 @@
     </style>
     <script>
         $(function() {
-            $("#updateButton").click(function(event) {
+            $("#updateFieldForm").submit(function(event) {
                 event.preventDefault();
 
                 var successMessage = $("#successMessage");
 
                 $.ajax({
-                    url: "postgres://gqvavmcsseyfde:04d48bc94ff894c12df9862618459c62c50c8ab81aaabd56569f7bbbac1ccac2@ec2-3-217-146-37.compute-1.amazonaws.com:5432/dba9nkg793ccsq", // Update this URL with your server endpoint
-                    method: "POST",
+                    url: event.target.action,
+                    method: event.target.method,
                     data: JSON.stringify({
-                        updateValue: true // The value to update to in Salesforce
+                        Active__c: true
                     }),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function(data) {
-                        successMessage.text("Field updated successfully!");
+                        successMessage.text("Field updated for all contacts!");
                         successMessage.show();
                     },
                     error: function(err) {
@@ -41,12 +42,32 @@
     </script>
 </head>
 <body>
-    <div class="container">
-        <h2>Salesforce Field Update</h2>
-        <button id="updateButton" class="btn btn-primary">Update Field</button>
-        <div id="successMessage" class="alert alert-success" role="alert" style="display: none;">
-            <strong>Success!</strong> <span id="messageMessage"></span>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">Field Updater</a>
+            </div>
         </div>
+    </nav>
+
+    <div class="container">
+        <form id="updateFieldForm" action="/update" method="post" style="width: 400px">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Update Field for All Contacts</h3>
+                </div>
+                <div class="panel-body">
+                    <!-- No input fields needed -->
+                </div>
+                <div class="panel-footer">
+                    <div id="successMessage" class="alert alert-success" role="alert" style="display: none;">
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                        <span id="messageMessage"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Field for All Contacts</button>
+                </div>
+            </div>
+        </form>
     </div>
 </body>
 </html>
