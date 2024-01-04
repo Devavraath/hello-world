@@ -1,6 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-var pg = require('pg');
+var { Client } = require('pg');
 
 var app = express();
 
@@ -10,17 +10,30 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 
 app.post('/update', function(req, res) {
-    pg.connect(process.env.DATABASE_URL, function (err, conn, done) {
-        if (err) console.log(err);
-        conn.query(
-            'UPDATE salesforce.Contact SET Active__c = True', // Replace YourFieldName with the actual field name you want to update
-            [req.body.newValue.trim()],
+    // Replace 'process.env.DATABASE_URL' with your actual PostgreSQL database connection string
+    var connectionString = process.env.DATABASE_URL || 'postgres://gqvavmcsseyfde:04d48bc94ff894c12df9862618459c62c50c8ab81aaabd56569f7bbbac1ccac2@ec2-3-217-146-37.compute-1.amazonaws.com:5432/dba9nkg793ccsq';
+
+    var client = new Client({
+        connectionString: connectionString
+    });
+
+    client.connect(function(err) {
+        if (err) {
+            console.error('Could not connect to PostgreSQL', err);
+            return res.status(500).json({ error: 'Could not connect to the database' });
+        }
+
+        client.query(
+            'UPDATE salesforce.Contact SET Active__c = $1',
+            [true],
             function(err, result) {
-                done();
+                client.end(); // Close the connection
+
                 if (err) {
-                    res.status(400).json({error: err.message});
+                    console.error('Error executing query', err);
+                    return res.status(400).json({ error: err.message });
                 } else {
-                    res.json(result);
+                    return res.json(result);
                 }
             }
         );
