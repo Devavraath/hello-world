@@ -15,10 +15,4 @@
     <configuration>
 	<appName>custoupdaternew</appName>
     </configuration>
-
-    <build>
-        <plugins>
-            <!-- Add any necessary build plugins here -->
-        </plugins>
-    </build>
 </project>
