@@ -12,7 +12,7 @@ app.post('/update', function(req, res) {
         if (err) console.log(err);
 
         conn.query(
-            'UPDATE Salesforce.Contact SET Active__c = True',
+            'UPDATE Salesforce.Contact SET Active__c = False',
             function(err, result) {
                 done();
                 res.json(result);
